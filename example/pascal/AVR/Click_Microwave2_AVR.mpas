@@ -1,0 +1,97 @@
+{*
+Example for Microwave2 Click
+
+    Date          : maj 2018.
+    Author        : Dusan Poluga
+
+Test configuration AVR :
+    
+    MCU              : ATMEGA32
+    Dev. Board       : EasyAVR v7 
+    AVR Compiler ver : v7.0.1.0
+
+---
+
+Description :
+
+The application is composed of three sections :
+
+- System Initialization - Initializes GPIO and UART structures.
+- Application Initialization - Initializes the click board for communication.
+- Application Task - Data sen't from the click board is captured and different 
+                     actions are applied.
+
+*}
+program Click_Microwave2_AVR;
+
+uses Click_Microwave2_types, Click_Microwave2_config;
+
+var
+    buf : array[6] of char; 
+    
+procedure systemInit(); 
+begin
+
+    mikrobus_gpioInit(_MIKROBUS1, _MIKROBUS_AN_PIN, _GPIO_INPUT); 
+    mikrobus_gpioInit(_MIKROBUS1, _MIKROBUS_INT_PIN, _GPIO_INPUT); 
+    mikrobus_uartInit(_MIKROBUS1, @_MICROWAVE2_UART_CFG[0]); 
+    Delay_ms(100); 
+
+end;
+
+procedure applicationInit(); 
+begin
+
+    microwave2_uartDriverInit(T_MICROWAVE2_P(@_MIKROBUS1_GPIO), T_MICROWAVE2_P(@_MIKROBUS1_UART)); 
+    Delay_ms(100); 
+    Lcd_Init(); 
+    Lcd_Cmd(_LCD_CLEAR); 
+    Lcd_Cmd(_LCD_CURSOR_OFF); 
+    Lcd_Out(1, 1, 'Text'); 
+
+end;
+
+procedure applicationTask(); 
+var
+    tmp : char;
+    rDat : char;
+begin
+    rDat := 0;
+
+    if (microwave2_byteReady()) then 
+    begin
+        rDat := microwave2_readByte(); 
+        microwave2_uartHandler(@buf[0], rDat); 
+    end; 
+    tmp := microwave2_checkTrafic(); 
+    if ((tmp = MICROWAVE2_MOVING_CLOSER)) then 
+    begin
+        Lcd_Out(2, 1, 'Approaching '); 
+    end; 
+    if ((tmp = MICROWAVE2_STOPPED_MOVING)) then 
+    begin
+        Lcd_Out(2, 1, 'No movesment'); 
+    end; 
+    if ((tmp = MICROWAVE2_MOVING_AWAY)) then 
+    begin
+        Lcd_Out(2, 1, 'Moving away '); 
+    end; 
+
+end;
+
+begin
+    buf[0] := 0;
+    buf[1] := 0;
+    buf[2] := 0;
+    buf[3] := 0;
+    buf[4] := 0;
+    buf[5] := 0;
+
+    systemInit(); 
+    applicationInit(); 
+    while (1) do 
+    begin 
+        applicationTask(); 
+    end;
+
+end.

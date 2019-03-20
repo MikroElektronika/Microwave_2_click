@@ -1,0 +1,23 @@
+module Click_Microwave2_config
+
+include Click_Microwave2_types
+
+const
+    _MICROWAVE2_UART_CFG as uint32_t[3] = (9600, _UART_NOPARITY, _UART_ONE_STOPBIT)
+    
+dim
+    ' LCD module connections
+    LCD_RS as sbit at PORTA2_bit 
+    LCD_EN as sbit at PORTD6_bit 
+    LCD_D4 as sbit at PORTC4_bit 
+    LCD_D5 as sbit at PORTC5_bit 
+    LCD_D6 as sbit at PORTC6_bit 
+    LCD_D7 as sbit at PORTC7_bit 
+    LCD_RS_Direction as sbit at DDA2_bit 
+    LCD_EN_Direction as sbit at DDD6_bit 
+    LCD_D4_Direction as sbit at DDC4_bit 
+    LCD_D5_Direction as sbit at DDC5_bit 
+    LCD_D6_Direction as sbit at DDC6_bit 
+    LCD_D7_Direction as sbit at DDC7_bit ' End LCD module connectionssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+    
+end.

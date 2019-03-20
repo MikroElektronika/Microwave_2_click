@@ -1,0 +1,64 @@
+[DEVICE]
+Name=FT900
+Clock=100000000
+[BUILD_TYPE]
+Value=1
+[MEMORY_MODEL]
+Value=0
+[ACTIVE_TAB]
+Value=Click_Microwave2_FT90x.c
+[USE_EEPROM]
+Value=0
+[USE_HEAP]
+Value=0
+[HEAP_SIZE]
+Value=0
+[EEPROM_DEFINITION]
+Value=
+[FILES]
+Count=2
+File0=Click_Microwave2_FT90x.c
+File1=..\..\..\library\__microwave2_Driver.c
+[BINARIES]
+Count=0
+[IMAGES]
+Count=0
+ActiveImageIndex=-1
+[OPENED_FILES]
+Count=1
+File0=Click_Microwave2_FT90x.c
+[EEPROM]
+Count=0
+[ACTIVE_COMMENTS_FILES]
+Count=0
+[OTHER_FILES]
+Count=0
+[SEARCH_PATH]
+Count=6
+Path0=D:\KOMPAJLERI\mikroC PRO for FT90x\Defs\
+Path1=D:\KOMPAJLERI\mikroC PRO for FT90x\Uses\
+Path2=F:\Dusan Poluga\Git\Click\www-UART\Microwave_2_Click\SW\example\c\FT90x\
+Path3=F:\Dusan Poluga\Git\Click\www-UART\Microwave_2_Click\SW\library\HAL\
+Path4=F:\Dusan Poluga\Git\Click\www-UART\Microwave_2_Click\SW\library\
+Path5=D:\KOMPAJLERI\mikroC PRO for FT90x\Packages\mikroBUS Board Definition API\Uses\
+[HEADER_PATH]
+Count=4
+Path0=F:\Dusan Poluga\Git\Click\www-UART\Microwave_2_Click\SW\library\
+Path1=F:\Dusan Poluga\Git\Click\www-UART\Microwave_2_Click\SW\library\HAL\
+Path2=F:\Dusan Poluga\Git\Click\www-UART\Microwave_2_Click\SW\example\c\FT90x\
+Path3=D:\KOMPAJLERI\mikroC PRO for FT90x\Packages\mikroBUS Board Definition API\Uses\
+[HEADERS]
+Count=3
+File0=..\..\..\library\__microwave2_driver.h
+File1=Click_Microwave2_config.h
+File2=Click_Microwave2_types.h
+[PLDS]
+Count=1
+File0=Click_Microwave2.pld
+[Useses]
+Count=2
+File0=UART
+File1=easyft90x_v7_FT900
+[EXPANDED_NODES]
+Node0=Header Files
+Count=1

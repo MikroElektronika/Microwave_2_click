@@ -1,0 +1,95 @@
+{*
+Example for Microwave2 Click
+
+    Date          : maj 2018.
+    Author        : Dusan Poluga
+
+Test configuration FT90x :
+    
+    MCU                : FT900
+    Dev. Board         : EasyFT90x v7 
+    FT90x Compiler ver : v2.2.1.0
+
+---
+
+Description :
+
+The application is composed of three sections :
+
+- System Initialization - Initializes GPIO and UART structures.
+- Application Initialization - Initializes the click board for communication.
+- Application Task - Data sen't from the click board is captured and different
+                     actions are applied.
+
+*}
+program Click_Microwave2_FT90x;
+
+uses Click_Microwave2_types, Click_Microwave2_config;
+
+var
+    tmp : uint8_t; 
+    
+procedure systemInit(); 
+begin
+
+    mikrobus_gpioInit(_MIKROBUS1, _MIKROBUS_AN_PIN, _GPIO_INPUT); 
+    mikrobus_gpioInit(_MIKROBUS1, _MIKROBUS_INT_PIN, _GPIO_INPUT); 
+    mikrobus_uartInit(_MIKROBUS1, @_MICROWAVE2_UART_CFG[0]); 
+    mikrobus_logInit(_LOG_USBUART, 9600); 
+    Delay_ms(100); 
+
+end;
+
+procedure applicationInit(); 
+begin
+
+    microwave2_uartDriverInit(T_MICROWAVE2_P(@_MIKROBUS1_GPIO), T_MICROWAVE2_P(@_MIKROBUS1_UART)); 
+    mikrobus_logWrite('Initialized', _LOG_LINE); 
+    Delay_ms(100); 
+
+end;
+
+procedure applicationTask(); 
+begin
+
+    tmp.B0 := microwave2_daState(); 
+    tmp.B1 := microwave2_dlState(); 
+    if (tmp.B0) then 
+    begin
+        mikrobus_logWrite('Approaching', _LOG_LINE); 
+        tmp.B2 := 1; 
+        while (microwave2_daState()) do 
+        begin 
+        end;
+    end; 
+    if (tmp.B1) then 
+    begin
+        mikrobus_logWrite('Moving away', _LOG_LINE); 
+        tmp.B3 := 1; 
+        while (microwave2_dlState()) do 
+        begin 
+        end;
+    end; 
+    if ((not tmp.B0 and tmp.B2)) then 
+    begin
+        tmp.B2 := 0; 
+        mikrobus_logWrite('No movesment', _LOG_LINE); 
+    end; 
+    if ((not tmp.B1 and tmp.B3)) then 
+    begin
+        tmp.B3 := 0; 
+        mikrobus_logWrite('No movesment', _LOG_LINE); 
+    end; 
+
+end;
+
+begin
+
+    systemInit(); 
+    applicationInit(); 
+    while (1) do 
+    begin 
+        applicationTask(); 
+    end;
+
+end.
